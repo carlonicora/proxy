@@ -1,0 +1,58 @@
+server {
+        listen 80;
+        server_name URL;
+
+        return 301 https://$host$request_uri;
+
+        location /.well-known/acme-challenge/ {
+           root /var/www/certbot;
+        }
+}
+
+server {
+        listen 443 ssl http2;
+        server_name URL;
+
+        ssl_certificate /etc/letsencrypt/live/URL/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/URL/privkey.pem;
+
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+
+        access_log /var/log/nginx/URL.access.log;
+        error_log /var/log/nginx/ULR.error.log;
+
+        location / {
+                proxy_pass http://host.docker.internal:PORT;
+        }
+
+        location ^~ /.well-known/acme-challenge/ {
+                default_type "text/plain";
+                root /var/www/certbot;
+        }
+}
+
+server {
+    listen 80;
+    server_name API_URL;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name API_URL;
+
+    ssl_certificate /etc/letsencrypt/live/API_URL/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/API_URL/privkey.pem;
+
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        root /var/www/certbot;
+    }
+
+    location ~ ^/v1.0 {
+        rewrite ^/v1.0/(.*) /$1 break;
+        proxy_pass http://host.docker.internal:API_PORT;
+    }
+}
