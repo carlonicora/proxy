@@ -8,9 +8,9 @@ In proxy/hosts copy the file `default.conf.example` and rename is so it fits you
 
 Edit your new file and make sure to replace the following:
 
-`{HOSTNAME}` with the url of your endpoint
+`URL` with the url of your endpoint
 
-`{DOCKERNAME}` with the name of the nginx instance of your docker exposing port 80
+`PORT` with the name of the nginx instance of your docker exposing port 80
 
 ## Install and run this docker
 
@@ -36,13 +36,13 @@ sudo chmod +X letsencrypt.sh
 ## Test the creation of the certificate
 
 ```
-sudo ./letsencrypt.sh -d YOURDOMAINNAMEHERE -e YOUREMAILHERE -s
+./letsencrypt.sh -d YOURDOMAINNAMEHERE -e YOUREMAILHERE -s
 ```
 
 ## Create the certificate
 
 ```
-sudo ./letsencrypt.sh -d YOURDOMAINNAMEHERE -e YOUREMAILHERE
+./letsencrypt.sh -d YOURDOMAINNAMEHERE -e YOUREMAILHERE
 ```
 
 ## Edit your configuration

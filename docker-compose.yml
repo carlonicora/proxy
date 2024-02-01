@@ -1,9 +1,9 @@
 version: "3.8"
 
 services:
-  nginx-registry:
-    container_name: nginx-registry
-    image: carlonicora/nginx-registry:1.0
+  nginx-proxy:
+    container_name: nginx-proxy
+    image: carlonicora/nginx-proxy:1.0
     restart: always
     build:
       context: .
@@ -19,7 +19,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-  #    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   letsencrypt:
     container_name: letsencrypt
@@ -36,4 +35,4 @@ networks:
   default_network:
     driver: bridge
     name: carlonicora
-    external: true
+    external: false
