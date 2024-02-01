@@ -9,8 +9,8 @@ services:
       context: .
       dockerfile: ./nginx/Dockerfile
     volumes:
-      - ../:/var/www/html:delegated
-      - ../logs:/logs/nginx/:delegated
+      - ./:/var/www/html:delegated
+      - ./logs:/logs/nginx/:delegated
       - ./nginx/hosts:/etc/nginx/sites-available/:delegated
       - ./certbot/conf:/etc/letsencrypt:delegated
       - ./certbot/www:/var/www/certbot:delegated
