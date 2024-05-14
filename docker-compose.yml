@@ -1,8 +1,7 @@
-version: "3.8"
-
 services:
   nginx-proxy:
     container_name: nginx-proxy
+    network_mode: bridge
     image: carlonicora/nginx-proxy:1.0
     restart: always
     build:
@@ -10,29 +9,20 @@ services:
       dockerfile: ./nginx/Dockerfile
     volumes:
       - ./:/var/www/html:delegated
-      - ./logs:/logs/nginx/:delegated
+      - ./logs:/var/logs/nginx/:delegated
       - ./nginx/hosts:/etc/nginx/sites-available/:delegated
       - ./certbot/conf:/etc/letsencrypt:delegated
       - ./certbot/www:/var/www/certbot:delegated
-    networks:
-      - default_network
     ports:
       - "80:80"
       - "443:443"
 
   letsencrypt:
     container_name: letsencrypt
+    network_mode: bridge
     image: certbot/certbot
     restart: always
-    networks:
-      - default_network
     volumes:
       - ./certbot/conf:/etc/letsencrypt:delegated
       - ./certbot/www:/var/www/certbot:delegated
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
-networks:
-  default_network:
-    driver: bridge
-    name: carlonicora
-    external: false
