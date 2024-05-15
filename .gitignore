@@ -1,0 +1,7 @@
+/logs
+/nginx/hosts
+/OLD_CONFIGS
+/certbot/conf/accounts
+/certbot/conf/archive
+/certbot/conf/live
+/certbot/conf/renewal

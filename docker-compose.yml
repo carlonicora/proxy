@@ -13,6 +13,8 @@ services:
       - ./nginx/hosts:/etc/nginx/sites-available/:delegated
       - ./certbot/conf:/etc/letsencrypt:delegated
       - ./certbot/www:/var/www/certbot:delegated
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
     ports:
       - "80:80"
       - "443:443"
